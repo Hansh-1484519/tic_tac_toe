@@ -2,6 +2,38 @@
 
 const e = React.createElement;
 
+class Square extends React.Component{
+    render(){
+        return(
+            <button className = 'square' >
+                {this.props.value}
+            </button>
+            );
+    }
+}
+
+class Board extends React.Component{
+
+    render(i){
+        return(
+            <div>
+                    <Square value = {i}/>
+            </div>
+        );
+    }
+}
+
+class Game extends React.Component{
+
+    render(){
+        return(
+            <div>
+                <Board/>
+            </div>
+        );
+    }
+}
+
 class LikeButton extends React.Component {
     constructor(props) {
         super(props);
@@ -23,4 +55,4 @@ class LikeButton extends React.Component {
 }
 
 const domContainer = document.querySelector('#reactRoot');
-ReactDOM.render(e(LikeButton), domContainer);
+ReactDOM.render( <Game/> , domContainer);
