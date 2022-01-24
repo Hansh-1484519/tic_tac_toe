@@ -1,6 +1,6 @@
 
 
-class Square extends React.Component {
+function Square(props){
 
     //remove the constructor as square is not maintaining the state
     /*
@@ -10,18 +10,15 @@ class Square extends React.Component {
             value: null,
         };
     } */
-
-    render() {
         return (
             <button
                 className='square'
                 onClick={() => {
-                    this.props.onClick();
+                    props.onClick();
                 }} >
-                {this.props.value}
+                {props.value}
             </button>
         );
-    }
 }
 
 class Board extends React.Component {
