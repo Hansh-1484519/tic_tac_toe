@@ -15,7 +15,6 @@ class Square extends React.Component {
                 onClick={() => {
                     this.setState({ value: 'X' });
                 }} >
-                {this.state.value}
                 {this.props.value}
             </button>
         );
@@ -23,15 +22,25 @@ class Square extends React.Component {
 }
 
 class Board extends React.Component {
+
+    constructor(){
+        super();
+        this.state = {
+            squares : Array(9).fill(null),
+        };
+    }
+
     renderSquare(i) {
-        return <Square value={i} />;
+        return <Square value={ this.state.squares[i]} />;
     }
 
     render() {
         const status = 'Next player : X';
         return (
             <div>
-                <div className="status"> {status}</div>
+                <div className="status"> 
+                    {status}
+                </div>
                 <div className="board-row">
                     {this.renderSquare(0)}
                     {this.renderSquare(1)}
@@ -58,7 +67,9 @@ class Game extends React.Component {
         return (
             <div className="game">
                 <div className="game-board">
-                    <Board />
+                    <React.StrictMode>
+                        <Board />
+                    </React.StrictMode>
                 </div>
                 <div className="game-info">
                     <div>{ }</div>
