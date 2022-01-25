@@ -44,13 +44,14 @@ function Winner(squares){
 
 class Board extends React.Component {
 
+    /* lifting the board's state into the game component
     constructor() {
         super();
         this.state = {
             squares: Array(9).fill(null),
             xIsNext : true,
         };
-    }
+    } */
 
     handleClick(i){
         const squares = this.state.squares.slice();
@@ -71,8 +72,8 @@ class Board extends React.Component {
     renderSquare(i) {
         return (
             <Square
-                value={this.state.squares[i]}
-                onClick={() => this.handleClick(i)}
+                value={this.props.squares[i]}
+                onClick={() => this.props.onClick(i)}
             />);
     }
 
@@ -83,7 +84,7 @@ class Board extends React.Component {
         if( winner ){
             status = 'Winner : ' + winner;
         }else{
-             status = 'Next player : ' + ( this.state.xIsNext ? 'X' : 'O');
+             status = 'Next player : ' + ( this.props.xIsNext ? 'X' : 'O');
         }
 
         return (
@@ -113,12 +114,25 @@ class Board extends React.Component {
 
 class Game extends React.Component {
 
+    constructor(props){
+        super( props );
+        this.state = {
+            history : [ {
+                squares : Array(9).fill(null),
+            }],
+            xIsNext : true,
+        }
+    }
+
     render() {
+
         return (
             <div className="game">
                 <div className="game-board">
                     <React.StrictMode>
-                        <Board />
+                        <Board squares = {}
+                                onClick = { () => {this.handleClick(i)}}
+                        />
                     </React.StrictMode>
                 </div>
                 <div className="game-info">
