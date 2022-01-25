@@ -1,6 +1,6 @@
 
 
-function Square(props){
+function Square(props) {
 
     //remove the constructor as square is not maintaining the state
     /*
@@ -10,36 +10,35 @@ function Square(props){
             value: null,
         };
     } */
-        return (
-            <button
-                className='square'
-                onClick={() =>  props.onClick() }>
-                {props.value}
-            </button>
-        );
+    return (
+        <button
+            className='square'
+            onClick={() => props.onClick()}>
+            {props.value}
+        </button>
+    );
 }
 
 
 //helper function to determine winner
-function Winner(squares){
+function Winner(squares) {
     const lines = [
-        [0 , 1 , 2],
-        [3 , 4 , 5],
-        [6 , 7 , 8],
-        [0 , 3 , 6],
-        [1 , 4 , 7],
-        [2 , 5 , 8],
-        [0 , 4 , 8],
-        [2 , 4 , 6],
+        [0, 1, 2],
+        [3, 4, 5],
+        [6, 7, 8],
+        [0, 3, 6],
+        [1, 4, 7],
+        [2, 5, 8],
+        [0, 4, 8],
+        [2, 4, 6],
     ];
-    for( let i = 0 ; i < lines.length ; i++){
-        const [a , b , c] = lines[i];
-        if( squares[a] && squares[a] === squares[b] && squares[a] === squares[c])
-        {
+    for (let i = 0; i < lines.length; i++) {
+        const [a, b, c] = lines[i];
+        if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
             return squares[a];
         }
     }
-        return null;
+    return null;
 }
 
 class Board extends React.Component {
@@ -53,22 +52,6 @@ class Board extends React.Component {
         };
     } */
 
-    handleClick(i){
-        const squares = this.state.squares.slice();
-        if( Winner(squares) || squares[i]){
-            return;
-        }
-
-        if(this.state.xIsNext){
-            squares[i] = 'X';
-        }else{ squares[i] = 'O'}
-
-        this.setState({
-                squares : squares,
-                xIsNext : !this.state.xIsNext
-        });
-    }
-
     renderSquare(i) {
         return (
             <Square
@@ -78,14 +61,6 @@ class Board extends React.Component {
     }
 
     render() {
-
-        const winner = Winner(this.state.squares);
-        let status;
-        if( winner ){
-            status = 'Winner : ' + winner;
-        }else{
-             status = 'Next player : ' + ( this.props.xIsNext ? 'X' : 'O');
-        }
 
         return (
             <div>
@@ -114,29 +89,59 @@ class Board extends React.Component {
 
 class Game extends React.Component {
 
-    constructor(props){
-        super( props );
+    constructor(props) {
+        super(props);
         this.state = {
-            history : [ {
-                squares : Array(9).fill(null),
+            history: [{
+                squares: Array(9).fill(null),
             }],
-            xIsNext : true,
+            xIsNext: true,
         }
+    }
+    handleClick(i) {
+        const history = this.state.history;
+        const current = history[history.length - 1];
+        const squares = current.squares.slice();
+
+        if (Winner(squares) || squares[i]) {
+            return;
+        }
+
+        if (this.state.xIsNext) {
+            squares[i] = 'X';
+        } else { squares[i] = 'O' }
+
+        this.setState({
+            history : history.concat([{
+                squares : squares,
+            }]),
+            xIsNext: !this.state.xIsNext
+        });
     }
 
     render() {
+        const history = this.state.history;
+        const current = history[history.length - 1];
+        const winner = Winner(current.squares);
+        let status;
+        if (winner) {
+            status = 'Winner : ' + winner;
+        } else {
+            status = 'Next player : ' + (this.state.xIsNext ? 'X' : 'O');
+        }
+
 
         return (
             <div className="game">
                 <div className="game-board">
                     <React.StrictMode>
-                        <Board squares = {}
-                                onClick = { () => {this.handleClick(i)}}
+                        <Board squares={current.squares}
+                            onClick={(i) => { this.handleClick(i) }}
                         />
                     </React.StrictMode>
                 </div>
                 <div className="game-info">
-                    <div> Hello </div>
+                    <div> {status} </div>
                     <ol>  bro  </ol>
                 </div>
             </div>
