@@ -122,8 +122,8 @@ class Game extends React.Component {
                     </React.StrictMode>
                 </div>
                 <div className="game-info">
-                    <div>{ }</div>
-                    <ol>  { }  </ol>
+                    <div> Hello </div>
+                    <ol>  bro  </ol>
                 </div>
             </div>
         );
